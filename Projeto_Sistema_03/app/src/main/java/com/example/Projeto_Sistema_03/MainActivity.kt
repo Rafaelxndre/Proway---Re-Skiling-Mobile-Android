@@ -837,24 +837,16 @@ fun TelaHeroComBottomSheet(
 fun ConteudoBottomSheet() {
 
     val context = LocalContext.current
-    val colorScheme = MaterialTheme.colorScheme
-    val titleTextColor = colorScheme.onSurface
-    val supportingTextColor = colorScheme.onSurfaceVariant
-    val bodyTextColor = colorScheme.onSurface
-    val dividerColor = colorScheme.outline
+    val titleTextColor = Color.White
+    val supportingTextColor = Color.LightGray
+    val bodyTextColor = Color.White
+    val dividerColor = Color(0xFF262626)
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 300.dp)
-            .background(
-                brush = Brush.verticalGradient(
-                    colorStops = arrayOf(
-                        0.0f to colorScheme.surfaceVariant,
-                        1.0f to colorScheme.surface
-                    )
-                )
-            )
+            .background(Color.Black)
             .verticalScroll(rememberScrollState())
             .padding(20.dp)
     ) {
@@ -887,7 +879,7 @@ fun ConteudoBottomSheet() {
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = null,
-                    tint = colorScheme.secondary,
+                    tint = Color.White,
                     modifier = Modifier.size(14.dp)
                 )
                 Spacer(Modifier.width(4.dp))
@@ -925,11 +917,11 @@ fun ConteudoBottomSheet() {
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = null,
-                    tint = colorScheme.tertiary,
+                    tint = Color.White,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(Modifier.width(4.dp))
-                Text("5.0", fontWeight = FontWeight.Normal, color = colorScheme.onSurface)
+                Text("5.0", fontWeight = FontWeight.Normal, color = Color.White)
                 Spacer(Modifier.width(6.dp))
                 Text("·", color = supportingTextColor)
                 Spacer(Modifier.width(6.dp))

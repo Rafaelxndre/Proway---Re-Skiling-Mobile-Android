@@ -993,8 +993,8 @@ fun ConteudoBottomSheet() {
                 .height(48.dp),
             shape = RoundedCornerShape(14.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF1D1D1D),
-                contentColor = Color.White
+                containerColor = Color(0xFFE6E6E6),
+                contentColor = Color(0xFF202020)
             )
         ) {
             Text(

@@ -419,7 +419,7 @@ private fun CardAtracao(atracao: AtracaoUi) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF1A1A1A))
+                .background(Color(0xFF12161D))
                 .padding(horizontal = 14.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -438,7 +438,7 @@ private fun CardAtracao(atracao: AtracaoUi) {
                 Spacer(Modifier.width(10.dp))
                 Text(
                     text = atracao.jogo,
-                    color = Color(0xFFECECEC),
+                    color = Color(0xFFE3EAF4),
                     style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -448,8 +448,8 @@ private fun CardAtracao(atracao: AtracaoUi) {
             Button(
                 onClick = { },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White.copy(alpha = 0.18f),
-                    contentColor = Color.White
+                    containerColor = Color(0xFF334255),
+                    contentColor = Color(0xFFEAF1FB)
                 ),
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier
@@ -748,7 +748,7 @@ fun BottomBarReserva(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.background,
+        color = Color(0xFF0F131A),
         tonalElevation = 2.dp,
         shadowElevation = 16.dp
     ) {
@@ -759,7 +759,7 @@ fun BottomBarReserva(
 
             Divider(
                 thickness = 1.dp,
-                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.32f)
+                color = Color(0xFF2A3341)
             )
 
             Row(
@@ -774,13 +774,14 @@ fun BottomBarReserva(
                 Column {
                     Text(
                         text = preco,
+                        color = Color(0xFFE8EEF8),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "por noite",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                        color = Color(0xFFB3C0D3)
                     )
                 }
 
@@ -790,8 +791,8 @@ fun BottomBarReserva(
                         .height(48.dp),
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = Color(0xFF334255),
+                        contentColor = Color(0xFFEAF1FB)
                     ),
                     elevation = ButtonDefaults.buttonElevation(
                         defaultElevation = 6.dp,

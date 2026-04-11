@@ -14,6 +14,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,7 +29,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -40,6 +44,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -69,6 +75,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -239,8 +246,224 @@ fun BottomMenu(navController: NavController) {
 
 @Composable
 fun TelaAtracoes() {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Tela Atrações")
+    val atracoes = listOf(
+        AtracaoUi(
+            tipo = TipoAtracao.ATRACAO,
+            badge = "Atração",
+            tituloSecao = "Disponível Agora",
+            titulo = "Degustação de Vinhos",
+            subtitulo = "Rótulos selecionados com sommelier e harmonização especial.",
+            jogo = "Adega Panorâmica",
+            imagem = R.drawable.principal
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Especial",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Sauna na Neve",
+            subtitulo = "Experiência térmica com vista para as montanhas geladas.",
+            jogo = "Spa Alpino",
+            imagem = R.drawable.vingadores
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.ATRACAO,
+            badge = "Atração",
+            tituloSecao = "Todos os dias",
+            titulo = "Passeio de Jet Ski na Neve",
+            subtitulo = "Circuito guiado com segurança e paisagens incríveis.",
+            jogo = "Lago Congelado",
+            imagem = R.drawable.gladiador
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Noturno",
+            tituloSecao = "Hoje às 20h",
+            titulo = "Noite de Fondue & Jazz",
+            subtitulo = "Menu completo com música ao vivo no lounge principal.",
+            jogo = "Lounge Aurora",
+            imagem = R.drawable.dark
+        )
+    )
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        item {
+            Text(
+                text = "Atualizações e eventos",
+                color = Color(0xFF39C7C8),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = "Atualizações dos seus jogos",
+                color = Color.White,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        items(atracoes) { atracao ->
+            CardAtracao(atracao = atracao)
+        }
+    }
+}
+
+private data class AtracaoUi(
+    val tipo: TipoAtracao,
+    val badge: String,
+    val tituloSecao: String,
+    val titulo: String,
+    val subtitulo: String,
+    val jogo: String,
+    val imagem: Int
+)
+
+private enum class TipoAtracao {
+    ATRACAO,
+    EVENTO
+}
+
+@Composable
+private fun CardAtracao(atracao: AtracaoUi) {
+    val textoBotao = if (atracao.tipo == TipoAtracao.ATRACAO) "Agendar" else "Saiba mais"
+
+    Card(
+        shape = RoundedCornerShape(28.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF151515)),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(290.dp)
+        ) {
+            Image(
+                painter = painterResource(id = atracao.imagem),
+                contentDescription = atracao.titulo,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colorStops = arrayOf(
+                                0f to Color.Black.copy(alpha = 0.18f),
+                                0.65f to Color(0xFF090909).copy(alpha = 0.72f),
+                                1f to Color(0xFF111111)
+                            )
+                        )
+                    )
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    modifier = Modifier
+                        .background(
+                            color = Color.Black.copy(alpha = 0.45f),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(12.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(
+                        text = atracao.badge,
+                        color = Color(0xFFEDEDED),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+
+                Column {
+                    Text(
+                        text = atracao.tituloSecao,
+                        color = Color(0xFFD6D6D6),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                    Text(
+                        text = atracao.titulo,
+                        color = Color.White,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = atracao.subtitulo,
+                        color = Color(0xFFD9D9D9),
+                        style = MaterialTheme.typography.titleSmall,
+                        maxLines = 2
+                    )
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF1A1A1A))
+                .padding(horizontal = 14.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                modifier = Modifier.weight(1f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.avatar),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    text = atracao.jogo,
+                    color = Color(0xFFECECEC),
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            Button(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White.copy(alpha = 0.18f),
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .height(40.dp)
+            ) {
+                Text(
+                    text = textoBotao,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    maxLines = 1
+                )
+            }
+        }
     }
 }
 

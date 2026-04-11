@@ -893,7 +893,7 @@ fun ConteudoBottomSheet() {
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "Espaço inteiro · Hotel em São Paulo, Brasil",
+                text = "Espaço inteiro · Hospedagem de luxo",
                 style = MaterialTheme.typography.bodyMedium,
                 color = supportingTextColor,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -902,7 +902,7 @@ fun ConteudoBottomSheet() {
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "12 hóspedes · 6 quartos · 10 camas · 6,5 banheiros",
+                text = "Ideal para grupos · Até 12 pessoas",
                 style = MaterialTheme.typography.bodySmall,
                 color = supportingTextColor,
                 modifier = Modifier.align(Alignment.CenterHorizontally)

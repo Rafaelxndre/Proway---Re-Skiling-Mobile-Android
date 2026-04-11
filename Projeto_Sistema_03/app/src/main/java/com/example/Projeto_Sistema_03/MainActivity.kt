@@ -287,6 +287,78 @@ fun TelaAtracoes() {
             subtitulo = "Experiência térmica com vista para as montanhas geladas.",
             jogo = "Spa Alpino",
             imagem = R.drawable.termal
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Especial",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Massagem a dois",
+            subtitulo = "Um ritual a dois de toque, silêncio e profundas sensações.",
+            jogo = "Santuário Alpino",
+            imagem = R.drawable.massagem
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Especial",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Bar de whisky e charutos",
+            subtitulo = "Um refúgio de silêncio, madeira, fogo e sabores intensos.",
+            jogo = "Velvet Room",
+            imagem = R.drawable.barwhisky
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Especial",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Passeio de helicóptero",
+            subtitulo = "Uma experiência aérea sobre paisagens que cortam a respiração.",
+            jogo = "Heliponto",
+            imagem = R.drawable.helicopter
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Especial",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Snowshoe walk ao luar",
+            subtitulo = "Uma travessia silenciosa sob a luz da lua, onde cada passo se transforma em memória.",
+            jogo = "Trilha Lunar",
+            imagem = R.drawable.snowshoe
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Especial",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Sessão privada de yoga",
+            subtitulo = "Um encontro íntimo entre respiração, silêncio e paisagens que acalmam a alma.",
+            jogo = "Aurora Zen",
+            imagem = R.drawable.yoga
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Em Alta",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Baile de Máscaras Exclusivo",
+            subtitulo = "Uma noite de mistério, elegância e encanto digna de um conto de fadas.",
+            jogo = "Véu Real ",
+            imagem = R.drawable.mask
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Em Alta",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Teatro Musical",
+            subtitulo = "Onde música, história e emoção se encontram como em um filme inesquecível.",
+            jogo = "Salão do Encanto",
+            imagem = R.drawable.teatro
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Em Alta",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Café Colonial",
+            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
+            jogo = "Pavilhão Alpino",
+            imagem = R.drawable.cafecolonial
         )
     )
 

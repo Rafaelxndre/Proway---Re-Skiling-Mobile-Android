@@ -650,9 +650,11 @@ fun TelaFaq() {
             icone = Icons.Default.Home,
             titulo = "Regras da casa",
             detalhes = listOf(
-                "Check-in após 15:00",
-                "Checkout antes das 12:00",
-                "Máximo de 2 hóspedes"
+                "Check-in: 15:00 - 02:00",
+                "Checkout: 11:00",
+                "Self check-in com fechadura inteligente",
+                "Proibido fumar",
+                "Não permite animais de estimação"
             )
         ),
         FaqSecaoUi(
@@ -662,6 +664,15 @@ fun TelaFaq() {
                 "Alarme de monóxido de carbono não informado",
                 "Detector de fumaça não informado",
                 "Câmeras de segurança na parte externa da propriedade"
+            )
+        ),
+        FaqSecaoUi(
+            icone = Icons.Default.Info,
+            titulo = "Saúde e segurança",
+            detalhes = listOf(
+                "Compromisso com o protocolo de higienização. Saiba mais",
+                "Aplicam-se o distanciamento social do Airbnb e outras orientações relacionadas à COVID-19",
+                "Alarme de monóxido de carbono"
             )
         )
     )

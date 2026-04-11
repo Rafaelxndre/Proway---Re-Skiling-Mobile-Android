@@ -90,6 +90,7 @@ import com.example.projeto_sistema_03.ui.theme.Exercicio1_navegacaoTheme
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.ui.draw.alpha
 import com.example.exercicio1_navegacao.R
+import androidx.compose.ui.graphics.vector.ImageVector
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -637,8 +638,115 @@ private fun ComentarioItem(comentario: ComentarioUi) {
 
 @Composable
 fun TelaFaq() {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Tela FAQ")
+    val secoesFaq = listOf(
+        FaqSecaoUi(
+            icone = Icons.Default.Info,
+            titulo = "Política de cancelamento",
+            detalhes = listOf(
+                "Adicione as datas de viagem para obter as informações de cancelamento dessa reserva."
+            )
+        ),
+        FaqSecaoUi(
+            icone = Icons.Default.Home,
+            titulo = "Regras da casa",
+            detalhes = listOf(
+                "Check-in após 15:00",
+                "Checkout antes das 12:00",
+                "Máximo de 2 hóspedes"
+            )
+        ),
+        FaqSecaoUi(
+            icone = Icons.Default.Star,
+            titulo = "Segurança e propriedade",
+            detalhes = listOf(
+                "Alarme de monóxido de carbono não informado",
+                "Detector de fumaça não informado",
+                "Câmeras de segurança na parte externa da propriedade"
+            )
+        )
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 24.dp, vertical = 28.dp)
+    ) {
+        Text(
+            text = "O que você precisa saber",
+            color = Color.White,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.ExtraBold
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        secoesFaq.forEachIndexed { index, secao ->
+            FaqSecaoItem(secao = secao)
+
+            if (index < secoesFaq.lastIndex) {
+                Divider(
+                    modifier = Modifier.padding(vertical = 18.dp),
+                    thickness = 1.dp,
+                    color = Color(0xFF262626)
+                )
+            }
+        }
+    }
+}
+
+private data class FaqSecaoUi(
+    val icone: ImageVector,
+    val titulo: String,
+    val detalhes: List<String>
+)
+
+@Composable
+private fun FaqSecaoItem(secao: FaqSecaoUi) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Top
+    ) {
+        Icon(
+            imageVector = secao.icone,
+            contentDescription = null,
+            tint = Color.White,
+            modifier = Modifier
+                .padding(top = 2.dp)
+                .size(24.dp)
+        )
+
+        Spacer(Modifier.width(14.dp))
+
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = secao.titulo,
+                color = Color.White,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Spacer(Modifier.height(6.dp))
+
+            secao.detalhes.forEach { detalhe ->
+                Text(
+                    text = detalhe,
+                    color = Color.LightGray,
+                    style = MaterialTheme.typography.bodyLarge,
+                    lineHeight = 24.sp
+                )
+            }
+        }
+
+        Spacer(Modifier.width(10.dp))
+
+        Text(
+            text = ">",
+            color = Color.LightGray,
+            fontSize = 24.sp,
+            modifier = Modifier.padding(top = 2.dp)
+        )
     }
 }
 

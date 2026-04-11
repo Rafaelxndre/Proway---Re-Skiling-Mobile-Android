@@ -86,7 +86,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Exercicio1_navegacaoTheme {
+            Exercicio1_navegacaoTheme(darkTheme = true) {
                 AppNavigation()
             }
         }
@@ -163,6 +163,7 @@ fun BottomMenu(navController: NavController) {
     val currentRoute = backStackEntry?.destination?.route
 
     val colorScheme = MaterialTheme.colorScheme
+    val selectedMenuColor = Color.White
 
     NavigationBar(
         containerColor = colorScheme.background
@@ -180,11 +181,11 @@ fun BottomMenu(navController: NavController) {
             label = { Text("Início") },
 
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = colorScheme.secondary,
-                selectedTextColor = colorScheme.secondary,
+                selectedIconColor = selectedMenuColor,
+                selectedTextColor = selectedMenuColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = colorScheme.secondary.copy(alpha = 0.18f)
+                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
             )
 
         )
@@ -196,11 +197,11 @@ fun BottomMenu(navController: NavController) {
             label = { Text("Atrações") },
 
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = colorScheme.secondary,
-                selectedTextColor = colorScheme.secondary,
+                selectedIconColor = selectedMenuColor,
+                selectedTextColor = selectedMenuColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = colorScheme.secondary.copy(alpha = 0.18f)
+                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
             )
         )
 
@@ -211,11 +212,11 @@ fun BottomMenu(navController: NavController) {
             label = { Text("Feed") },
 
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = colorScheme.secondary,
-                selectedTextColor = colorScheme.secondary,
+                selectedIconColor = selectedMenuColor,
+                selectedTextColor = selectedMenuColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = colorScheme.secondary.copy(alpha = 0.18f)
+                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
             )
         )
 
@@ -226,11 +227,11 @@ fun BottomMenu(navController: NavController) {
             label = { Text("FAQ") },
 
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = colorScheme.secondary,
-                selectedTextColor = colorScheme.secondary,
+                selectedIconColor = selectedMenuColor,
+                selectedTextColor = selectedMenuColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = colorScheme.secondary.copy(alpha = 0.18f)
+                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
             )
         )
     }
@@ -331,10 +332,10 @@ fun ConteudoBottomSheet() {
 
     val context = LocalContext.current
     val colorScheme = MaterialTheme.colorScheme
-    val titleTextColor = Color(0xFF181412)
-    val supportingTextColor = Color(0xFF3B332E)
-    val bodyTextColor = Color(0xFF2C2521)
-    val dividerColor = Color(0xFFB08E78)
+    val titleTextColor = colorScheme.onSurface
+    val supportingTextColor = colorScheme.onSurfaceVariant
+    val bodyTextColor = colorScheme.onSurface
+    val dividerColor = colorScheme.outline
 
     Column(
         modifier = Modifier
@@ -343,9 +344,8 @@ fun ConteudoBottomSheet() {
             .background(
                 brush = Brush.verticalGradient(
                     colorStops = arrayOf(
-//                        0.0f to Color(0xFF886451),
-                        0.42f to Color(0xFFE6D7CB),
-                        1.0f to Color(0xFFF5EDE6)
+                        0.0f to colorScheme.surfaceVariant,
+                        1.0f to colorScheme.surface
                     )
                 )
             )

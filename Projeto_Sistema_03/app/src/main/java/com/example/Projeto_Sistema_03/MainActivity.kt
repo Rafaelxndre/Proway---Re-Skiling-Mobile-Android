@@ -41,6 +41,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
@@ -752,11 +753,13 @@ private fun FaqSecaoItem(secao: FaqSecaoUi) {
 
         Spacer(Modifier.width(10.dp))
 
-        Text(
-            text = ">",
-            color = Color.LightGray,
-            fontSize = 24.sp,
-            modifier = Modifier.padding(top = 2.dp)
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowRight,
+            contentDescription = null,
+            tint = Color.LightGray,
+            modifier = Modifier
+                .padding(top = 2.dp)
+                .size(24.dp)
         )
     }
 }

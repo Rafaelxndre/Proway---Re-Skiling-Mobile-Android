@@ -432,7 +432,7 @@ private fun CardAtracao(atracao: AtracaoUi) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.avatar),
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = null,
                     modifier = Modifier
                         .size(32.dp)

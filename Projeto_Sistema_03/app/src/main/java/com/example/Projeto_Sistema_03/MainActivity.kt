@@ -13,6 +13,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,6 +42,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
@@ -151,8 +154,8 @@ fun AppNavigation() {
                 TelaAtracoes()
             }
 
-            composable("feed") {
-                TelaFeed()
+            composable("comentarios") {
+                TelaComentarios()
             }
 
             composable("faq") {
@@ -213,10 +216,10 @@ fun BottomMenu(navController: NavController) {
         )
 
         NavigationBarItem(
-            selected = currentRoute == "feed",
-            onClick = { navController.navigate("feed") },
+            selected = currentRoute == "comentarios",
+            onClick = { navController.navigate("comentarios") },
             icon = { Icon(Icons.Default.Info, null) },
-            label = { Text("Feed") },
+            label = { Text("Comentários") },
 
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = selectedMenuColor,
@@ -468,9 +471,188 @@ private fun CardAtracao(atracao: AtracaoUi) {
 }
 
 @Composable
-fun TelaFeed() {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Tela Feed")
+fun TelaComentarios() {
+    val comentarios = listOf(
+        ComentarioUi(
+            nome = "Sara",
+            tempoNoAirbnb = "4 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou uma noite",
+            texto = "Experiência simplesmente impecável! O chalé é um refúgio de paz, com uma vista deslumbrante. A acomodação é perfeita: extremamente limpa, decorada com muito bom gosto e equipada com tudo o que precisávamos para uma estadia confortável. Acordar com aquele cenário foi revigorante. Cada detalhe mostra o carinho dos anfitriões. Recomendo de olhos fechados e já planejo a volta!",
+            foto = R.drawable.avatar
+        ),
+        ComentarioUi(
+            nome = "Rodrigo",
+            tempoNoAirbnb = "3 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou algumas noites",
+            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
+            foto = R.drawable.avatar
+        ),
+        ComentarioUi(
+            nome = "Rodrigo",
+            tempoNoAirbnb = "3 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou algumas noites",
+            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
+            foto = R.drawable.avatar
+        ),
+        ComentarioUi(
+            nome = "Rodrigo",
+            tempoNoAirbnb = "3 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou algumas noites",
+            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
+            foto = R.drawable.avatar
+        ),
+        ComentarioUi(
+            nome = "Rodrigo",
+            tempoNoAirbnb = "3 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou algumas noites",
+            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
+            foto = R.drawable.avatar
+        ),
+        ComentarioUi(
+            nome = "Rodrigo",
+            tempoNoAirbnb = "3 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou algumas noites",
+            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
+            foto = R.drawable.avatar
+        ),
+        ComentarioUi(
+            nome = "Rodrigo",
+            tempoNoAirbnb = "3 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou algumas noites",
+            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
+            foto = R.drawable.avatar
+        ),
+        ComentarioUi(
+            nome = "Rodrigo",
+            tempoNoAirbnb = "3 anos no Airbnb",
+            resumo = "janeiro de 2026 · Ficou algumas noites",
+            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
+            foto = R.drawable.avatar
+        )
+    )
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 18.dp),
+        verticalArrangement = Arrangement.spacedBy(18.dp)
+    ) {
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "66 avaliações",
+                    color = Color.White,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(28.dp))
+                            .border(1.dp, Color(0xFF2A3341), RoundedCornerShape(28.dp))
+                            .background(Color(0xFF111111))
+                            .padding(horizontal = 14.dp, vertical = 9.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Mais relevantes",
+                            color = Color.White,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .size(42.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFF111111))
+                            .border(1.dp, Color(0xFF2A3341), CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Buscar",
+                            tint = Color.White
+                        )
+                    }
+                }
+            }
+        }
+
+        itemsIndexed(comentarios) { index, comentario ->
+            ComentarioItem(comentario = comentario)
+
+            if (index < comentarios.lastIndex) {
+                Divider(
+                    modifier = Modifier.padding(top = 20.dp),
+                    thickness = 1.dp,
+                    color = Color(0xFF262626)
+                )
+            }
+        }
+    }
+}
+
+private data class ComentarioUi(
+    val nome: String,
+    val tempoNoAirbnb: String,
+    val resumo: String,
+    val texto: String,
+    val foto: Int
+)
+
+@Composable
+private fun ComentarioItem(comentario: ComentarioUi) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(id = comentario.foto),
+                contentDescription = comentario.nome,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(CircleShape)
+            )
+            Spacer(Modifier.width(12.dp))
+
+            Column {
+                Text(
+                    text = comentario.nome,
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = comentario.tempoNoAirbnb,
+                    color = Color.LightGray,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+
+        Text(
+            text = "★★★★★ · ${comentario.resumo}",
+            color = Color.LightGray,
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Normal
+        )
+
+        Text(
+            text = comentario.texto,
+            color = Color.White,
+            style = MaterialTheme.typography.bodyLarge,
+            lineHeight = 22.sp
+        )
     }
 }
 

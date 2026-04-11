@@ -950,12 +950,35 @@ fun ConteudoBottomSheet() {
         Spacer(Modifier.height(12.dp))
 
         Text(
-            text =
-                "Hotel com decoração de luxo situado em meio à neve, suspenso em altas montanhas e cercado por paisagens deslumbrantes. " +
-                        "O Proway Retreat oferece uma vista de tirar o fôlego, combinando conforto, exclusividade e contato direto com a natureza.",
+            text = "O Proway Retreat é mais do que um destino é uma experiência criada para marcar a vida. " +
+                    "Um refúgio onde cada detalhe convida você a desacelerar, sentir e compartilhar momentos " +
+                    "que ganham significado quando vividos ao lado de quem está com você.",
             style = MaterialTheme.typography.bodyMedium,
             color = bodyTextColor,
-            lineHeight = 20.sp
+            lineHeight = 24.sp
+        )
+
+        Spacer(Modifier.height(14.dp))
+
+        Text(
+            text = "As noites se transformam em lembranças inesquecíveis ao som suave do jazz, acompanhadas por" +
+                    "degustações de vinhos que prolongam conversas, olhares e conexões. Entre romance e adrenalina," +
+                    "surgem aventuras únicas, como explorar paisagens cobertas de neve sobre duas rodas, despertando" +
+                    "emoções que ficam para sempre.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = bodyTextColor,
+            lineHeight = 24.sp
+        )
+
+        Spacer(Modifier.height(14.dp))
+
+        Text(
+            text = "E quando o silêncio pede passagem, as piscinas termais com vista para as montanhas oferecem" +
+                    "paz, calor e tranquilidade absoluta. Um lugar para se reconectar, criar memórias profundas e" +
+                    "viver uma experiência tão especial que você vai querer voltar e nunca esquecer",
+            style = MaterialTheme.typography.bodyMedium,
+            color = bodyTextColor,
+            lineHeight = 24.sp
         )
 
         Spacer(Modifier.height(16.dp))

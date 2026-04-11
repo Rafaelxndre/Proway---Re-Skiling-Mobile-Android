@@ -257,25 +257,7 @@ fun TelaAtracoes() {
             titulo = "Degustação de Vinhos",
             subtitulo = "Rótulos selecionados com sommelier e harmonização especial.",
             jogo = "Adega Panorâmica",
-            imagem = R.drawable.principal
-        ),
-        AtracaoUi(
-            tipo = TipoAtracao.EVENTO,
-            badge = "Evento Especial",
-            tituloSecao = "Acontecendo Agora",
-            titulo = "Sauna na Neve",
-            subtitulo = "Experiência térmica com vista para as montanhas geladas.",
-            jogo = "Spa Alpino",
-            imagem = R.drawable.vingadores
-        ),
-        AtracaoUi(
-            tipo = TipoAtracao.ATRACAO,
-            badge = "Atração",
-            tituloSecao = "Todos os dias",
-            titulo = "Passeio de Jet Ski na Neve",
-            subtitulo = "Circuito guiado com segurança e paisagens incríveis.",
-            jogo = "Lago Congelado",
-            imagem = R.drawable.gladiador
+            imagem = R.drawable.vinho
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
@@ -284,7 +266,25 @@ fun TelaAtracoes() {
             titulo = "Noite de Fondue & Jazz",
             subtitulo = "Menu completo com música ao vivo no lounge principal.",
             jogo = "Lounge Aurora",
-            imagem = R.drawable.dark
+            imagem = R.drawable.fundue
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.ATRACAO,
+            badge = "Atração",
+            tituloSecao = "Todos os dias",
+            titulo = "Passeio de Jet Ski na Neve",
+            subtitulo = "Circuito guiado com segurança e paisagens incríveis.",
+            jogo = "Lago Congelado",
+            imagem = R.drawable.nordica
+        ),
+        AtracaoUi(
+            tipo = TipoAtracao.EVENTO,
+            badge = "Evento Especial",
+            tituloSecao = "Acontecendo Agora",
+            titulo = "Piscina Termal",
+            subtitulo = "Experiência térmica com vista para as montanhas geladas.",
+            jogo = "Spa Alpino",
+            imagem = R.drawable.termal
         )
     )
 
@@ -304,7 +304,7 @@ fun TelaAtracoes() {
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                text = "Atualizações dos seus jogos",
+                text = "Atualizações da semana",
                 color = Color.White,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
@@ -474,60 +474,39 @@ private fun CardAtracao(atracao: AtracaoUi) {
 fun TelaComentarios() {
     val comentarios = listOf(
         ComentarioUi(
-            nome = "Sara",
+            nome = "Cristiano Ronaldo",
             tempoNoAirbnb = "4 anos no Airbnb",
             resumo = "janeiro de 2026 · Ficou uma noite",
             texto = "Experiência simplesmente impecável! O chalé é um refúgio de paz, com uma vista deslumbrante. A acomodação é perfeita: extremamente limpa, decorada com muito bom gosto e equipada com tudo o que precisávamos para uma estadia confortável. Acordar com aquele cenário foi revigorante. Cada detalhe mostra o carinho dos anfitriões. Recomendo de olhos fechados e já planejo a volta!",
-            foto = R.drawable.avatar
+            foto = R.drawable.perfil_cristiano
         ),
         ComentarioUi(
-            nome = "Rodrigo",
+            nome = "Robert Downey Jr",
             tempoNoAirbnb = "3 anos no Airbnb",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
-            foto = R.drawable.avatar
+            foto = R.drawable.perfil_dois
         ),
         ComentarioUi(
-            nome = "Rodrigo",
+            nome = "Elon Musk",
             tempoNoAirbnb = "3 anos no Airbnb",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
-            foto = R.drawable.avatar
+            foto = R.drawable.perfil_tres
         ),
         ComentarioUi(
-            nome = "Rodrigo",
+            nome = "Sylvester Stallone",
             tempoNoAirbnb = "3 anos no Airbnb",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
-            foto = R.drawable.avatar
+            foto = R.drawable.perfil_quinto
         ),
         ComentarioUi(
-            nome = "Rodrigo",
+            nome = "Michael B. Jordan",
             tempoNoAirbnb = "3 anos no Airbnb",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
-            foto = R.drawable.avatar
-        ),
-        ComentarioUi(
-            nome = "Rodrigo",
-            tempoNoAirbnb = "3 anos no Airbnb",
-            resumo = "janeiro de 2026 · Ficou algumas noites",
-            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
-            foto = R.drawable.avatar
-        ),
-        ComentarioUi(
-            nome = "Rodrigo",
-            tempoNoAirbnb = "3 anos no Airbnb",
-            resumo = "janeiro de 2026 · Ficou algumas noites",
-            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
-            foto = R.drawable.avatar
-        ),
-        ComentarioUi(
-            nome = "Rodrigo",
-            tempoNoAirbnb = "3 anos no Airbnb",
-            resumo = "janeiro de 2026 · Ficou algumas noites",
-            texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
-            foto = R.drawable.avatar
+            foto = R.drawable.perfi_quatro
         )
     )
 

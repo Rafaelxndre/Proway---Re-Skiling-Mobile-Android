@@ -837,6 +837,7 @@ fun TelaHeroComBottomSheet(
 fun ConteudoBottomSheet() {
 
     val context = LocalContext.current
+    val mostrarTextoCompleto = remember { mutableStateOf(false) }
     val titleTextColor = Color.White
     val supportingTextColor = Color.LightGray
     val bodyTextColor = Color.White
@@ -958,28 +959,49 @@ fun ConteudoBottomSheet() {
             lineHeight = 24.sp
         )
 
-        Spacer(Modifier.height(14.dp))
+        if (mostrarTextoCompleto.value) {
+            Spacer(Modifier.height(14.dp))
 
-        Text(
-            text = "As noites se transformam em lembranças inesquecíveis ao som suave do jazz, acompanhadas por" +
-                    "degustações de vinhos que prolongam conversas, olhares e conexões. Entre romance e adrenalina," +
-                    "surgem aventuras únicas, como explorar paisagens cobertas de neve sobre duas rodas, despertando" +
-                    "emoções que ficam para sempre.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = bodyTextColor,
-            lineHeight = 24.sp
-        )
+            Text(
+                text = "As noites se transformam em lembranças inesquecíveis ao som suave do jazz, acompanhadas por " +
+                        "degustações de vinhos que prolongam conversas, olhares e conexões. Entre romance e adrenalina, " +
+                        "surgem aventuras únicas, como explorar paisagens cobertas de neve sobre duas rodas, " +
+                        "despertando emoções que ficam para sempre.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = bodyTextColor,
+                lineHeight = 24.sp
+            )
 
-        Spacer(Modifier.height(14.dp))
+            Spacer(Modifier.height(14.dp))
 
-        Text(
-            text = "E quando o silêncio pede passagem, as piscinas termais com vista para as montanhas oferecem" +
-                    "paz, calor e tranquilidade absoluta. Um lugar para se reconectar, criar memórias profundas e" +
-                    "viver uma experiência tão especial que você vai querer voltar e nunca esquecer",
-            style = MaterialTheme.typography.bodyMedium,
-            color = bodyTextColor,
-            lineHeight = 24.sp
-        )
+            Text(
+                text = "E quando o silêncio pede passagem, as piscinas termais com vista para as montanhas oferecem " +
+                        "paz, calor e tranquilidade absoluta. Um lugar para se reconectar, criar memórias profundas e " +
+                        "viver uma experiência tão especial que você vai querer voltar e nunca esquecer.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = bodyTextColor,
+                lineHeight = 24.sp
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
+
+        Button(
+            onClick = { mostrarTextoCompleto.value = !mostrarTextoCompleto.value },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            shape = RoundedCornerShape(14.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF1D1D1D),
+                contentColor = Color.White
+            )
+        ) {
+            Text(
+                text = if (mostrarTextoCompleto.value) "Mostrar menos" else "Saiba mais",
+                fontWeight = FontWeight.SemiBold
+            )
+        }
 
         Spacer(Modifier.height(16.dp))
         Divider(thickness = 1.4.dp, color = dividerColor)

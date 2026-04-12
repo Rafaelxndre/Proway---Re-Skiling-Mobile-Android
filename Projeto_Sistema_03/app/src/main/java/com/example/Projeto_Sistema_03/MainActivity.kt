@@ -43,6 +43,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomSheetScaffold
@@ -153,7 +154,16 @@ fun AppNavigation() {
             }
 
             composable("atracoes") {
-                TelaAtracoes()
+                TelaAtracoes(navController = navController)
+            }
+
+            composable("detalhe_atracao") {
+                atracaoSelecionada?.let { atracao ->
+                    TelaDetalheAtracao(
+                        atracao = atracao,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
             }
 
             composable("comentarios") {
@@ -250,7 +260,7 @@ fun BottomMenu(navController: NavController) {
 }
 
 @Composable
-fun TelaAtracoes() {
+fun TelaAtracoes(navController: NavController) {
     val atracoes = listOf(
         AtracaoUi(
             tipo = TipoAtracao.ATRACAO,
@@ -365,72 +375,72 @@ fun TelaAtracoes() {
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
             titulo = "Patinação no Gelo",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
-            jogo = "Pavilhão Alpino",
-            imagem = R.drawable.cafecolonial
+            subtitulo = "Viva a magia do inverno sobre o gelo.",
+            jogo = "Lago da Lua",
+            imagem = R.drawable.patinacao
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
             titulo = "Jantar em iglu",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
-            jogo = "Pavilhão Alpino",
-            imagem = R.drawable.cafecolonial
+            subtitulo = "Um jantar íntimo em meio ao charme do inverno.",
+            jogo = "Vila dos Iglus",
+            imagem = R.drawable.iglu
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
-            titulo = "Passeio trenó",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
-            jogo = "Pavilhão Alpino",
-            imagem = R.drawable.cafecolonial
+            titulo = "Passeio de trenó",
+            subtitulo = "Uma jornada encantadora guiada pela força e beleza dos cães do inverno.",
+            jogo = "Vale Polar",
+            imagem = R.drawable.treno
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
             titulo = "Cassino",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
-            jogo = "Pavilhão Alpino",
-            imagem = R.drawable.cafecolonial
+            subtitulo = " Glamour, jogos e emoção em uma atmosfera exclusiva.",
+            jogo = "Salão Royale",
+            imagem = R.drawable.cassino
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
             titulo = "Fogueira night",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
-            jogo = "Pavilhão Alpino",
-            imagem = R.drawable.cafecolonial
+            subtitulo = "Conforto, histórias e sabores ao redor da fogueira.",
+            jogo = "Vale da Aurora",
+            imagem = R.drawable.fogueira
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
             titulo = "Cinema",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
+            subtitulo = "Um filme quentinho para noites frias.",
             jogo = "Velvet Cine",
-            imagem = R.drawable.cafecolonial
+            imagem = R.drawable.cinema
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
             titulo = "Jantar a luz de velas",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
-            jogo = "Velvet Cine",
-            imagem = R.drawable.cafecolonial
+            subtitulo = "Um jantar íntimo iluminado pelo romance.",
+            jogo = "La Belle Nuit",
+            imagem = R.drawable.jantarvela
         ),
         AtracaoUi(
             tipo = TipoAtracao.EVENTO,
             badge = "Em Alta",
             tituloSecao = "Acontecendo Agora",
             titulo = "Passeio a cavalo",
-            subtitulo = "Comece o dia envolvido pelo frio da paisagem e o calor dos sentidos.",
-            jogo = "Velvet Cine",
-            imagem = R.drawable.cafecolonial
+            subtitulo = "Uma aventura inesquecível sobre a neve.",
+            jogo = "Vale gelado",
+            imagem = R.drawable.horsesneve
         )
     )
 
@@ -458,7 +468,7 @@ fun TelaAtracoes() {
         }
 
         items(atracoes) { atracao ->
-            CardAtracao(atracao = atracao)
+            CardAtracao(atracao = atracao, navController = navController)
         }
     }
 }
@@ -478,8 +488,10 @@ private enum class TipoAtracao {
     EVENTO
 }
 
+private var atracaoSelecionada: AtracaoUi? = null
+
 @Composable
-private fun CardAtracao(atracao: AtracaoUi) {
+private fun CardAtracao(atracao: AtracaoUi, navController: NavController) {
     val textoBotao = if (atracao.tipo == TipoAtracao.ATRACAO) "Agendar" else "Saiba mais"
 
     Card(
@@ -595,7 +607,10 @@ private fun CardAtracao(atracao: AtracaoUi) {
             }
 
             Button(
-                onClick = { },
+                onClick = {
+                    atracaoSelecionada = atracao
+                    navController.navigate("detalhe_atracao")
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF334255),
                     contentColor = Color(0xFFEAF1FB)
@@ -610,6 +625,157 @@ private fun CardAtracao(atracao: AtracaoUi) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
                     maxLines = 1
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TelaDetalheAtracao(
+    atracao: AtracaoUi,
+    onBack: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(360.dp)
+        ) {
+            Image(
+                painter = painterResource(id = atracao.imagem),
+                contentDescription = atracao.titulo,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colorStops = arrayOf(
+                                0f to Color.Black.copy(alpha = 0.25f),
+                                0.6f to Color.Transparent,
+                                1f to Color.Black.copy(alpha = 0.85f)
+                            )
+                        )
+                    )
+            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(16.dp)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color.Black.copy(alpha = 0.55f))
+                    .clickable { onBack() },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Voltar",
+                    tint = Color.White,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .background(
+                        color = Color(0xFF1A2535),
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = null,
+                    tint = Color(0xFF39C7C8),
+                    modifier = Modifier.size(13.dp)
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(
+                    text = atracao.badge,
+                    color = Color(0xFF39C7C8),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+
+            Text(
+                text = atracao.tituloSecao,
+                color = Color(0xFFB0B0B0),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium
+            )
+
+            Text(
+                text = atracao.titulo,
+                color = Color.White,
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = atracao.subtitulo,
+                color = Color(0xFFD9D9D9),
+                style = MaterialTheme.typography.bodyLarge,
+                lineHeight = 24.sp
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = null,
+                    tint = Color(0xFF39C7C8),
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(
+                    text = atracao.jogo,
+                    color = Color(0xFFE3EAF4),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+
+            Spacer(Modifier.height(8.dp))
+
+            Divider(thickness = 1.dp, color = Color(0xFF262626))
+
+            Spacer(Modifier.height(8.dp))
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(14.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF334255),
+                    contentColor = Color(0xFFEAF1FB)
+                ),
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+            ) {
+                Text(
+                    text = if (atracao.tipo == TipoAtracao.ATRACAO) "Confirmar Agendamento" else "Confirmar Interesse",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
                 )
             }
         }

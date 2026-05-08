@@ -86,8 +86,7 @@ fun EditContactScreen(viewModel: ContactViewModel) {
             confirmButton = {
                 TextButton(onClick = {
                     showDeleteDialog.value = false
-                    viewModel.deleteContact()
-                    viewModel.navigateTo(Screen.CONTACTS)
+                    viewModel.deleteContactAndNavigate()
                 }) {
                     Text("Excluir", color = Color(0xFFFF6B6B))
                 }
@@ -205,13 +204,12 @@ fun EditContactScreen(viewModel: ContactViewModel) {
 
             Button(
                 onClick = {
-                    viewModel.updateContact(
+                    viewModel.updateContactAndNavigate(
                         name.value.trim(), email.value.trim(), telefone.value.trim(),
                         nascimento.value.trim(), cep.value.trim(), bairro.value.trim(),
                         logradouro.value.trim(), estado.value.trim(), cidade.value.trim(),
                         numero.value.trim()
                     )
-                    viewModel.navigateTo(Screen.CONTACTS)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(

@@ -1,5 +1,9 @@
 package com.example.gerenciadorcontatos.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "contacts")
 data class Contact(
     val name: String,
     val description: String = "",
@@ -12,5 +16,7 @@ data class Contact(
     val logradouro: String = "",
     val estado: String = "",
     val cidade: String = "",
-    val numero: String = ""
+    val numero: String = "",
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
 )

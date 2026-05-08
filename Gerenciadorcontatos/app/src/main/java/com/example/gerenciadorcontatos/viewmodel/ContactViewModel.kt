@@ -1,5 +1,6 @@
 package com.example.gerenciadorcontatos.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,9 @@ import kotlinx.coroutines.launch
 enum class Screen { CONTACTS, CREATE_CONTACT, EDIT_CONTACT }
 
 class ContactViewModel(
-    private val repository: ContactRepository = ContactRepository()
+    private val repository: ContactRepository
 ) : ViewModel() {
+    private val TAG = "ContactViewModel"
 
     val contacts get() = repository.contacts
 
@@ -39,14 +41,34 @@ class ContactViewModel(
         cep: String, bairro: String, logradouro: String, estado: String,
         cidade: String, numero: String
     ) {
-        repository.add(
-            Contact(
-                name = name, initials = buildInitials(name),
-                email = email, telefone = telefone, nascimento = nascimento,
-                cep = cep, bairro = bairro, logradouro = logradouro,
-                estado = estado, cidade = cidade, numero = numero
+        viewModelScope.launch {
+            repository.add(
+                Contact(
+                    name = name, initials = buildInitials(name),
+                    email = email, telefone = telefone, nascimento = nascimento,
+                    cep = cep, bairro = bairro, logradouro = logradouro,
+                    estado = estado, cidade = cidade, numero = numero
+                )
             )
-        )
+        }
+    }
+
+    fun addContactAndNavigate(
+        name: String, email: String, telefone: String, nascimento: String,
+        cep: String, bairro: String, logradouro: String, estado: String,
+        cidade: String, numero: String
+    ) {
+        viewModelScope.launch {
+            repository.add(
+                Contact(
+                    name = name, initials = buildInitials(name),
+                    email = email, telefone = telefone, nascimento = nascimento,
+                    cep = cep, bairro = bairro, logradouro = logradouro,
+                    estado = estado, cidade = cidade, numero = numero
+                )
+            )
+            navigateTo(Screen.CONTACTS)
+        }
     }
 
     fun updateContact(
@@ -54,35 +76,72 @@ class ContactViewModel(
         cep: String, bairro: String, logradouro: String, estado: String,
         cidade: String, numero: String
     ) {
-        val base = selectedContact.value ?: return
-        repository.update(
-            selectedContactIndex.value,
-            base.copy(
-                name = name, initials = buildInitials(name),
-                email = email, telefone = telefone, nascimento = nascimento,
-                cep = cep, bairro = bairro, logradouro = logradouro,
-                estado = estado, cidade = cidade, numero = numero
+        viewModelScope.launch {
+            val base = selectedContact.value ?: return@launch
+            repository.update(
+                selectedContactIndex.value,
+                base.copy(
+                    name = name, initials = buildInitials(name),
+                    email = email, telefone = telefone, nascimento = nascimento,
+                    cep = cep, bairro = bairro, logradouro = logradouro,
+                    estado = estado, cidade = cidade, numero = numero
+                )
             )
-        )
+        }
+    }
+
+    fun updateContactAndNavigate(
+        name: String, email: String, telefone: String, nascimento: String,
+        cep: String, bairro: String, logradouro: String, estado: String,
+        cidade: String, numero: String
+    ) {
+        viewModelScope.launch {
+            val base = selectedContact.value ?: return@launch
+            repository.update(
+                selectedContactIndex.value,
+                base.copy(
+                    name = name, initials = buildInitials(name),
+                    email = email, telefone = telefone, nascimento = nascimento,
+                    cep = cep, bairro = bairro, logradouro = logradouro,
+                    estado = estado, cidade = cidade, numero = numero
+                )
+            )
+            navigateTo(Screen.CONTACTS)
+        }
     }
 
     fun deleteContact() {
-        repository.delete(selectedContactIndex.value)
-        selectedContact.value = null
-        selectedContactIndex.value = -1
+        viewModelScope.launch {
+            repository.delete(selectedContactIndex.value)
+            selectedContact.value = null
+            selectedContactIndex.value = -1
+        }
+    }
+
+    fun deleteContactAndNavigate() {
+        viewModelScope.launch {
+            repository.delete(selectedContactIndex.value)
+            selectedContact.value = null
+            selectedContactIndex.value = -1
+            navigateTo(Screen.CONTACTS)
+        }
     }
 
     fun fetchAddress(cep: String) {
         viewModelScope.launch {
+            Log.d(TAG, "fetchAddress chamado com: $cep")
             isLoadingCep.value = true
             cepError.value = null
             val result = repository.fetchAddress(cep)
             isLoadingCep.value = false
+            Log.d(TAG, "Resultado da busca: $result")
             if (result != null) {
                 addressResult.value = result
+                Log.d(TAG, "Endereço encontrado: $result")
             } else {
                 addressResult.value = null
                 cepError.value = "CEP não encontrado"
+                Log.w(TAG, "CEP não encontrado: $cep")
             }
         }
     }

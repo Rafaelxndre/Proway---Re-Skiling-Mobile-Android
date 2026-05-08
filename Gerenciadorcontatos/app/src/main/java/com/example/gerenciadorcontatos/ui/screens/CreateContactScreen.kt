@@ -187,13 +187,12 @@ fun CreateContactScreen(viewModel: ContactViewModel) {
 
             Button(
                 onClick = {
-                    viewModel.addContact(
+                    viewModel.addContactAndNavigate(
                         name.value.trim(), email.value.trim(), telefone.value.trim(),
                         nascimento.value.trim(), cep.value.trim(), bairro.value.trim(),
                         logradouro.value.trim(), estado.value.trim(), cidade.value.trim(),
                         numero.value.trim()
                     )
-                    viewModel.navigateTo(Screen.CONTACTS)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(

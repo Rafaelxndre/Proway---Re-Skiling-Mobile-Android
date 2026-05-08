@@ -6,11 +6,17 @@ Aplicativo Android desenvolvido em **Kotlin** com **Jetpack Compose**, com persi
 
 ## 🖼️ Telas do Aplicativo
 
-| Lista de Contatos | Criar Contato | Editar Contato |
-|:-:|:-:|:-:|
-| ![Lista](docs/screenshots/lista.png) | ![Criar](docs/screenshots/criar.png) | ![Editar](docs/screenshots/editar.png) |
+### Fluxo Principal
 
-> 💡 Para adicionar screenshots: tire prints do emulador e salve em `docs/screenshots/`.
+| Tela Inicial | Cadastro de Contato | Preenchimento Automático (CEP) |
+|:-:|:-:|:-:|
+| ![Inicial](docs/screenshots/telaInicial.png) | ![Cadastro](docs/screenshots/cadastroContato.png) | ![Preenchimento](docs/screenshots/preenchimentoAutomaticoCEP.png) |
+
+### Operações com Contatos
+
+| Busca de Contato | Salvar Contato | Editar / Excluir |
+|:-:|:-:|:-:|
+| ![Busca](docs/screenshots/buscaContato.png) | ![Salvar](docs/screenshots/salvarContato.png) | ![Editar](docs/screenshots/telaEditarExcluir.png) |
 
 ---
 

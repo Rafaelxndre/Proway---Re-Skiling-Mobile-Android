@@ -94,82 +94,103 @@ import androidx.compose.ui.draw.alpha
 import com.example.sistemahospedagem.R
 import androidx.compose.ui.graphics.vector.ImageVector
 
+/**
+ * MainActivity - Ponto de entrada da aplicação
+ * Responsável por inicializar o Compose e renderizar a navegação
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge()  // Permite que a UI use toda a tela (inclui status bar)
         setContent {
+            // Aplica o tema (cores, tipografia, etc.)
             SistemaHospedagemTheme(darkTheme = true) {
+                // Renderiza a navegação da aplicação
                 AppNavigation()
             }
         }
     }
 }
 
+/**
+ * AppNavigation - Orquestrador central da navegação
+ * Define as rotas e gerencia a alternância entre telas
+ * 
+ * Padrão usado:
+ * - NavHost: gerencia as rotas ("lista", "atracoes", etc.)
+ * - NavController: permite navegação entre rotas
+ * - AnimatedVisibility: alterna entre o menu normal e o menu de reserva
+ */
 @Composable
 fun AppNavigation() {
+    // Cria um controlador que gerencia a navegação entre telas
     val navController = rememberNavController()
 
-    // ✅ Estado compartilhado
-    val modoReservaAtivo = remember { mutableStateOf(false) }
+    // Estado que controla se a interface está no modo de reserva
+    // true = mostra rodapé com preço e botão reservar
+    // false = mostra menu de navegação normal
+    val isReservationMode = remember { mutableStateOf(false) }
 
     Scaffold(
         bottomBar = {
-
-            // 🔹 MENU PADRÃO
+            // Quando NÃO está em modo reserva: mostra o menu de navegação
             AnimatedVisibility(
-                visible = !modoReservaAtivo.value,
+                visible = !isReservationMode.value,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
                 BottomMenu(navController)
             }
 
-            // 🔹 RODAPÉ DE RESERVA (ocupa TODO o espaço do menu)
+            // Quando ESTÁ em modo reserva: mostra o rodapé com preço
             AnimatedVisibility(
-                visible = modoReservaAtivo.value,
-                enter = slideInVertically { it },
-                exit = slideOutVertically { it }
+                visible = isReservationMode.value,
+                enter = slideInVertically { it },  // Desliza de baixo
+                exit = slideOutVertically { it }   // Desliza para baixo
             ) {
                 BottomBarReserva(
                     preco = "R$ 1.250",
                     onReservarClick = {
-                        // fluxo de reserva
+                        // Ação para confirmar reserva
                     }
                 )
             }
         }
     ) { paddingValues ->
-
+        // NavHost: Define todas as rotas e suas telas correspondentes
         NavHost(
             navController = navController,
-            startDestination = "lista",
-            modifier = Modifier.padding(paddingValues)
+            startDestination = "lista",  // Tela que abre primeiro
+            modifier = Modifier.padding(paddingValues)  // Respeita espaço do bottom bar
         ) {
-
+            // Rota HOME: Tela inicial
             composable("lista") {
                 TelaHeroComBottomSheet(
-                    modoReservaAtivo = modoReservaAtivo
+                    modoReservaAtivo = isReservationMode
                 )
             }
 
+            // Rota ATTRACTIONS: Lista de atrações e eventos
             composable("atracoes") {
                 TelaAtracoes(navController = navController)
             }
 
+            // Rota DETAIL: Detalhe de uma atração selecionada
             composable("detalhe_atracao") {
                 atracaoSelecionada?.let { atracao ->
                     TelaDetalheAtracao(
                         atracao = atracao,
-                        onBack = { navController.popBackStack() }
+                        onBack = { navController.popBackStack() }  // Volta à tela anterior
                     )
                 }
             }
 
+            // Rota REVIEWS: Avaliações e comentários
             composable("comentarios") {
                 TelaComentarios()
             }
 
+            // Rota FAQ: Perguntas frequentes
             composable("faq") {
                 TelaFaq()
             }
@@ -178,87 +199,94 @@ fun AppNavigation() {
 }
 
 
+/**
+ * BottomMenu - Barra de navegação inferior com 4 itens
+ * Mostra qual tela está ativa (destacada) e permite navegar para outras
+ */
 @Composable
 fun BottomMenu(navController: NavController) {
-
+    // Monitora qual é a rota atual para destacar o item selecionado
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
     val colorScheme = MaterialTheme.colorScheme
-    val selectedMenuColor = Color.White
+    val activeItemColor = Color.White  // Cor do item selecionado
 
     NavigationBar(
         containerColor = colorScheme.background
     ) {
 
+        // Item 1: HOME
         NavigationBarItem(
             selected = currentRoute == "lista",
             onClick = {
                 navController.navigate("lista") {
-                    popUpTo(navController.graph.startDestinationId)
-                    launchSingleTop = true
+                    popUpTo(navController.graph.startDestinationId)  // Limpa histórico
+                    launchSingleTop = true  // Evita duplicar
                 }
             },
             icon = { Icon(Icons.Default.Home, null) },
             label = { Text("Início") },
-
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = selectedMenuColor,
-                selectedTextColor = selectedMenuColor,
+                selectedIconColor = activeItemColor,
+                selectedTextColor = activeItemColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
+                indicatorColor = activeItemColor.copy(alpha = 0.2f)
             )
-
         )
 
+        // Item 2: ATTRACTIONS
         NavigationBarItem(
             selected = currentRoute == "atracoes",
             onClick = { navController.navigate("atracoes") },
             icon = { Icon(Icons.Default.Star, null) },
             label = { Text("Atrações") },
-
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = selectedMenuColor,
-                selectedTextColor = selectedMenuColor,
+                selectedIconColor = activeItemColor,
+                selectedTextColor = activeItemColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
+                indicatorColor = activeItemColor.copy(alpha = 0.2f)
             )
         )
 
+        // Item 3: REVIEWS
         NavigationBarItem(
             selected = currentRoute == "comentarios",
             onClick = { navController.navigate("comentarios") },
             icon = { Icon(Icons.Default.Info, null) },
             label = { Text("Comentários") },
-
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = selectedMenuColor,
-                selectedTextColor = selectedMenuColor,
+                selectedIconColor = activeItemColor,
+                selectedTextColor = activeItemColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
+                indicatorColor = activeItemColor.copy(alpha = 0.2f)
             )
         )
 
+        // Item 4: FAQ
         NavigationBarItem(
             selected = currentRoute == "faq",
             onClick = { navController.navigate("faq") },
             icon = { Icon(Icons.Default.Email, null) },
             label = { Text("FAQ") },
-
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = selectedMenuColor,
-                selectedTextColor = selectedMenuColor,
+                selectedIconColor = activeItemColor,
+                selectedTextColor = activeItemColor,
                 unselectedIconColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                 unselectedTextColor = colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
-                indicatorColor = selectedMenuColor.copy(alpha = 0.2f)
+                indicatorColor = activeItemColor.copy(alpha = 0.2f)
             )
         )
     }
 }
 
+/**
+ * TelaAtracoes - Lista de todas as atrações e eventos disponíveis
+ * Exibe cards com resumo de cada atração
+ */
 @Composable
 fun TelaAtracoes(navController: NavController) {
     val atracoes = listOf(
@@ -488,6 +516,10 @@ private enum class TipoAtracao {
     EVENTO
 }
 
+/**
+ * Variável global que armazena qual atração o usuário clicou
+ * Permite passar dados entre telas sem usar NavArguments complexos
+ */
 private var atracaoSelecionada: AtracaoUi? = null
 
 @Composable
@@ -760,8 +792,11 @@ private fun TelaDetalheAtracao(
 
             Spacer(Modifier.height(8.dp))
 
+            // Botão com texto dinâmico dependendo do tipo de atração
             Button(
-                onClick = { },
+                onClick = { 
+                    // Ação para confirmar agendamento/interesse
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -772,6 +807,7 @@ private fun TelaDetalheAtracao(
                 ),
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
             ) {
+                // Texto muda baseado no tipo: "Agendar" (atração) ou "Saiba mais" (evento)
                 Text(
                     text = if (atracao.tipo == TipoAtracao.ATRACAO) "Confirmar Agendamento" else "Confirmar Interesse",
                     fontWeight = FontWeight.Bold,
@@ -782,6 +818,10 @@ private fun TelaDetalheAtracao(
     }
 }
 
+/**
+ * TelaComentarios - Exibe avaliações de outros hóspedes
+ * Mostra nome, foto, classificação e texto do comentário
+ */
 @Composable
 fun TelaComentarios() {
     val comentarios = listOf(
@@ -947,6 +987,10 @@ private fun ComentarioItem(comentario: ComentarioUi) {
     }
 }
 
+/**
+ * TelaFaq - Perguntas frequentes e informações importantes
+ * Organizado em seções: Cancelamento, Regras, Segurança, Saúde
+ */
 @Composable
 fun TelaFaq() {
     val secoesFaq = listOf(
@@ -1074,18 +1118,31 @@ private fun FaqSecaoItem(secao: FaqSecaoUi) {
     }
 }
 
+/**
+ * TelaHeroComBottomSheet - Tela inicial com imagem hero deslizável
+ * Padrão: Hero image (top) + BottomSheet (bottom sheet deslizável)
+ * 
+ * Comportamento:
+ * - Hero image: Grande imagem do resort que ocupa ~50% da tela
+ * - BottomSheet: Conteúdo deslizável com informações
+ * - Quando o sheet é puxado completamente para cima, ativa o modo reserva
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaHeroComBottomSheet(
     modoReservaAtivo: MutableState<Boolean>
 ) {
 
+    // Estado do bottom sheet (posição, tamanho, etc.)
     val scaffoldState = rememberBottomSheetScaffoldState()
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    
+    // Altura inicial do sheet (46% da tela visível)
     val sheetPeekHeight = screenHeight * 0.46f
 
     val bottomSheetState = scaffoldState.bottomSheetState
 
+    // Monitora se o sheet foi puxado totalmente para cima
     val isFullyExpanded by remember {
         derivedStateOf {
             bottomSheetState.currentValue == SheetValue.Expanded &&
@@ -1093,13 +1150,14 @@ fun TelaHeroComBottomSheet(
         }
     }
 
+    // Quando o sheet expande completamente, ativa modo de reserva
     LaunchedEffect(isFullyExpanded) {
         modoReservaAtivo.value = isFullyExpanded
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-
-        // 🔥 Imagem HERO
+        // ========== HERO IMAGE ==========
+        // Grande imagem de fundo que cobre metade da tela
         Image(
             painter = painterResource(id = R.drawable.principal),
             contentDescription = null,
@@ -1123,7 +1181,8 @@ fun TelaHeroComBottomSheet(
                 )
         )
 
-        // ✅ BottomSheet
+        // ========== BOTTOM SHEET DESLIZÁVEL ==========
+        // Área que pode ser puxada para cima para ver mais detalhes
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetPeekHeight = sheetPeekHeight,

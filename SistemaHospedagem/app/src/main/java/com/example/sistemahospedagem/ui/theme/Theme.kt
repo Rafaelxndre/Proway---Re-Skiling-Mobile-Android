@@ -1,4 +1,4 @@
-package com.example.projeto_sistema_03.ui.theme
+package com.example.sistemahospedagem.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -44,7 +44,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun Exercicio1_navegacaoTheme(
+fun SistemaHospedagemTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,

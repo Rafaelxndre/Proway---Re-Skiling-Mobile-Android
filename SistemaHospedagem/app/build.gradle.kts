@@ -21,11 +21,11 @@ val hasReleaseSigning = listOf(
 ).all { !localProperties.getProperty(it).isNullOrBlank() }
 
 android {
-    namespace = "com.example.exercicio1_navegacao"
+    namespace = "com.example.sistemahospedagem"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.exercicio1_navegacao"
+        applicationId = "com.example.sistemahospedagem"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

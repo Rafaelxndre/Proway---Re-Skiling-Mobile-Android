@@ -1,4 +1,4 @@
-package com.example.Projeto_Sistema_03
+package com.example.sistemahospedagem
 
 import org.junit.Test
 

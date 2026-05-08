@@ -1,4 +1,4 @@
-# 🏨 Proway Retreat
+# 🏨 Sistema Hospedagem — Proway Retreat
 
 Aplicativo Android desenvolvido em **Kotlin** com **Jetpack Compose**, focado em uma experiência de hotelaria com navegação entre páginas de **Início**, **Atrações**, **Comentários** e **Dúvidas Frequentes**.
 
@@ -144,7 +144,7 @@ AppNavigation (NavHost + Estado Compartilhado)
 ### Estrutura de Pacotes
 
 ```text
-app/src/main/java/com/example/Projeto_Sistema_03/
+app/src/main/java/com/example/sistemahospedagem/
 ├── MainActivity.kt              # Navegação, telas e componentes do app
 └── ui/theme/
     ├── Color.kt                 # Paleta de cores (tema escuro)
@@ -220,7 +220,7 @@ data class FaqSecaoUi(
 git clone https://github.com/seu-usuario/proway-retreat.git
 
 # 2. Acesse a pasta do projeto
-cd Projeto_Sistema_03
+cd SistemaHospedagem
 
 # 3. Abra no Android Studio
 # File -> Open -> selecione a pasta do projeto

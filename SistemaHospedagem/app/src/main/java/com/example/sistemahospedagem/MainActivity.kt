@@ -1,4 +1,4 @@
-package com.example.projeto_sistema_03
+package com.example.sistemahospedagem
 
 import android.content.Intent
 import android.net.Uri
@@ -88,10 +88,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.projeto_sistema_03.ui.theme.Exercicio1_navegacaoTheme
+import com.example.sistemahospedagem.ui.theme.SistemaHospedagemTheme
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.ui.draw.alpha
-import com.example.exercicio1_navegacao.R
+import com.example.sistemahospedagem.R
 import androidx.compose.ui.graphics.vector.ImageVector
 
 class MainActivity : ComponentActivity() {
@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Exercicio1_navegacaoTheme(darkTheme = true) {
+            SistemaHospedagemTheme(darkTheme = true) {
                 AppNavigation()
             }
         }

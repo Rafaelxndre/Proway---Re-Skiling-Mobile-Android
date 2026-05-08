@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "exercicio1_navegacao"
+rootProject.name = "SistemaHospedagem"
 include(":app")
  

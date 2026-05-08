@@ -14,10 +14,10 @@ Aqui você acompanha minha evolução prática no desenvolvimento Android, desde
 
 ## 📂 Projetos Publicados
 
-### 1) 01_Projeto_Introducao_Desenvolvimento_Kotlin
+### 1) 📗 01_Projeto_Introducao_Desenvolvimento_Kotlin
 Projeto inicial com foco em fundamentos de Kotlin e estrutura base Android.
 
-### 2) Gerenciadorcontatos
+### 2) 📱 Gerenciadorcontatos
 Aplicativo Android para gerenciamento de contatos com persistência local e integração com API de CEP.
 
 **✨ Destaques:**
@@ -27,7 +27,7 @@ Aplicativo Android para gerenciamento de contatos com persistência local e inte
 - Interface com Jetpack Compose
 - Mais detalhes em [Gerenciadorcontatos/README.md](Gerenciadorcontatos/README.md)
 
-### 3) SistemaHospedagem
+### 3) 🏨 SistemaHospedagem
 Aplicativo Android com proposta de experiência de hospedagem/resort, com múltiplas telas e navegação.
 
 **✨ Destaques:**

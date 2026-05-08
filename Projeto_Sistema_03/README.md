@@ -43,7 +43,12 @@ Aplicativo Android desenvolvido em **Kotlin** com **Jetpack Compose**, focado em
 ### ❓ Tela de FAQ
 
 ![FAQ](docs/screenshots/FAQ.png)
-*Perguntas frequentes organizadas em 4 categorias: cancelamento, regras, segurança e saúde.*
+
+**Perguntas frequentes organizadas em 4 categorias:**
+- Cancelamento
+- Regras
+- Segurança
+- Saúde
 
 ---
 

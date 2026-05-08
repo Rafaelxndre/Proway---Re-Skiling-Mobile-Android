@@ -787,35 +787,35 @@ fun TelaComentarios() {
     val comentarios = listOf(
         ComentarioUi(
             nome = "Cristiano Ronaldo",
-            tempoNoAirbnb = "4 anos no Airbnb",
+            tempoComoHospede = "4 anos como hóspede",
             resumo = "janeiro de 2026 · Ficou uma noite",
             texto = "Experiência simplesmente impecável! O chalé é um refúgio de paz, com uma vista deslumbrante. A acomodação é perfeita: extremamente limpa, decorada com muito bom gosto e equipada com tudo o que precisávamos para uma estadia confortável. Acordar com aquele cenário foi revigorante. Cada detalhe mostra o carinho dos anfitriões. Recomendo de olhos fechados e já planejo a volta!",
             foto = R.drawable.perfil_cristiano
         ),
         ComentarioUi(
             nome = "Robert Downey Jr",
-            tempoNoAirbnb = "3 anos no Airbnb",
+            tempoComoHospede = "3 anos como hóspede",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
             foto = R.drawable.perfil_dois
         ),
         ComentarioUi(
             nome = "Elon Musk",
-            tempoNoAirbnb = "3 anos no Airbnb",
+            tempoComoHospede = "3 anos como hóspede",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
             foto = R.drawable.perfil_tres
         ),
         ComentarioUi(
             nome = "Sylvester Stallone",
-            tempoNoAirbnb = "3 anos no Airbnb",
+            tempoComoHospede = "3 anos como hóspede",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
             foto = R.drawable.perfil_quinto
         ),
         ComentarioUi(
             nome = "Michael B. Jordan",
-            tempoNoAirbnb = "3 anos no Airbnb",
+            tempoComoHospede = "3 anos como hóspede",
             resumo = "janeiro de 2026 · Ficou algumas noites",
             texto = "Local extremamente lindo, uma vista espetacular sem palavras, acomodação muito aconchegante, atendimento maravilhoso sempre pronto a nos atender. Experiência excelente, espero voltar com os amigos em breve.",
             foto = R.drawable.perfi_quatro
@@ -893,7 +893,7 @@ fun TelaComentarios() {
 
 private data class ComentarioUi(
     val nome: String,
-    val tempoNoAirbnb: String,
+    val tempoComoHospede: String,
     val resumo: String,
     val texto: String,
     val foto: Int
@@ -924,7 +924,7 @@ private fun ComentarioItem(comentario: ComentarioUi) {
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = comentario.tempoNoAirbnb,
+                    text = comentario.tempoComoHospede,
                     color = Color.LightGray,
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -982,7 +982,7 @@ fun TelaFaq() {
             titulo = "Saúde e segurança",
             detalhes = listOf(
                 "Compromisso com o protocolo de higienização. Saiba mais",
-                "Aplicam-se o distanciamento social do Airbnb e outras orientações relacionadas à COVID-19",
+                "Seguimos diretrizes de segurança sanitária e recomendações de bem-estar para todos os hóspedes",
                 "Alarme de monóxido de carbono"
             )
         )

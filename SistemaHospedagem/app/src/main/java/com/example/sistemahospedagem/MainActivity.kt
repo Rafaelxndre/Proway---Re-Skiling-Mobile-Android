@@ -1,11 +1,11 @@
 package com.example.sistemahospedagem
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.net.toUri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -38,12 +38,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomSheetScaffold
@@ -51,8 +51,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -677,7 +677,7 @@ private fun TelaDetalheAtracao(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Voltar",
                     tint = Color.White,
                     modifier = Modifier.size(20.dp)
@@ -756,7 +756,7 @@ private fun TelaDetalheAtracao(
 
             Spacer(Modifier.height(8.dp))
 
-            Divider(thickness = 1.dp, color = Color(0xFF262626))
+            HorizontalDivider(thickness = 1.dp, color = Color(0xFF262626))
 
             Spacer(Modifier.height(8.dp))
 
@@ -881,7 +881,7 @@ fun TelaComentarios() {
             ComentarioItem(comentario = comentario)
 
             if (index < comentarios.lastIndex) {
-                Divider(
+                HorizontalDivider(
                     modifier = Modifier.padding(top = 20.dp),
                     thickness = 1.dp,
                     color = Color(0xFF262626)
@@ -1008,7 +1008,7 @@ fun TelaFaq() {
             FaqSecaoItem(secao = secao)
 
             if (index < secoesFaq.lastIndex) {
-                Divider(
+                HorizontalDivider(
                     modifier = Modifier.padding(vertical = 18.dp),
                     thickness = 1.dp,
                     color = Color(0xFF262626)
@@ -1064,7 +1064,7 @@ private fun FaqSecaoItem(secao: FaqSecaoUi) {
         Spacer(Modifier.width(10.dp))
 
         Icon(
-            imageVector = Icons.Default.KeyboardArrowRight,
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
             tint = Color.LightGray,
             modifier = Modifier
@@ -1245,7 +1245,7 @@ fun ConteudoBottomSheet() {
 
             Spacer(Modifier.height(16.dp))
 
-            Divider(thickness = 1.4.dp, color = dividerColor)
+            HorizontalDivider(thickness = 1.4.dp, color = dividerColor)
         }
 
         // ===== SOBRE ESTE ESPAÇO =====
@@ -1314,7 +1314,7 @@ fun ConteudoBottomSheet() {
         }
 
         Spacer(Modifier.height(16.dp))
-        Divider(thickness = 1.4.dp, color = dividerColor)
+        HorizontalDivider(thickness = 1.4.dp, color = dividerColor)
 
         // ===== LOCALIZAÇÃO NO MAPA =====
         Spacer(Modifier.height(16.dp))
@@ -1334,7 +1334,7 @@ fun ConteudoBottomSheet() {
                 .height(180.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .clickable {
-                    val uri = Uri.parse("geo:-23.5505,-46.6333?q=São+Paulo")
+                    val uri = "geo:-23.5505,-46.6333?q=São+Paulo".toUri()
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     intent.setPackage("com.google.android.apps.maps")
                     context.startActivity(intent)
@@ -1387,7 +1387,7 @@ fun BottomBarReserva(
                 .windowInsetsPadding(NavigationBarDefaults.windowInsets)
         ) {
 
-            Divider(
+            HorizontalDivider(
                 thickness = 1.dp,
                 color = Color(0xFF2A3341)
             )

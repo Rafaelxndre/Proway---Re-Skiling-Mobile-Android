@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.gerenciadorcontatos.model.Contact
 
-@Database(entities = [Contact::class], version = 1, exportSchema = false)
+@Database(entities = [Contact::class], version = 2, exportSchema = false)
 abstract class ContactDatabase : RoomDatabase() {
     abstract fun contactDao(): ContactDao
 
@@ -20,7 +20,7 @@ abstract class ContactDatabase : RoomDatabase() {
                     context.applicationContext,
                     ContactDatabase::class.java,
                     "contact_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

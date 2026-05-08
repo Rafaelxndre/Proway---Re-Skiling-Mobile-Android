@@ -210,8 +210,7 @@ fun CreateContactScreen(viewModel: ContactViewModel) {
                     estado.value.trim().isNotEmpty() &&
                     cidade.value.trim().isNotEmpty() &&
                     numero.value.trim().isNotEmpty() &&
-                    viewModel.cepError.value == null &&
-                    !viewModel.isLoadingCep.value
+                    viewModel.cepError.value == null
             ) {
                 Text("Salvar contato")
             }

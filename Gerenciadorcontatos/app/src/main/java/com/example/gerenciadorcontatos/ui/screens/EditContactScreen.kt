@@ -223,8 +223,7 @@ fun EditContactScreen(viewModel: ContactViewModel) {
                     nascimento.value.trim().isNotEmpty() &&
                     cep.value.length == 8 &&
                     numero.value.trim().isNotEmpty() &&
-                    viewModel.cepError.value == null &&
-                    !viewModel.isLoadingCep.value
+                    viewModel.cepError.value == null
             ) {
                 Text("Salvar alterações")
             }

@@ -8,35 +8,6 @@
 
 Repositório com os projetos e atividades do curso de Android (120 horas), publicados conforme o avanço da trilha.
 
-## 📘 Sobre
-
-Aqui você acompanha minha evolução prática no desenvolvimento Android, desde os fundamentos até aplicações mais completas com Kotlin e Jetpack Compose.
-
-## 📂 Projetos Publicados
-
-### 1) 📗 01_Projeto_Introducao_Desenvolvimento_Kotlin
-Projeto inicial com foco em fundamentos de Kotlin e estrutura base Android.
-
-### 2) 📱 Gerenciadorcontatos
-Aplicativo Android para gerenciamento de contatos com persistência local e integração com API de CEP.
-
-**✨ Destaques:**
-- Cadastro, edição, busca e exclusão de contatos
-- Room (SQLite) para armazenamento local
-- Retrofit para consulta de endereço via ViaCEP
-- Interface com Jetpack Compose
-- Mais detalhes em [Gerenciadorcontatos/README.md](Gerenciadorcontatos/README.md)
-
-### 3) 🏨 SistemaHospedagem
-Aplicativo Android com proposta de experiência de hospedagem/resort, com múltiplas telas e navegação.
-
-**✨ Destaques:**
-- Navegação entre páginas (Início, Atrações, Comentários e FAQ)
-- Componentes visuais com Jetpack Compose
-- Estrutura orientada a estados e fluxo de UI
-- Simulação de experiência real de produto
-- Mais detalhes em [SistemaHospedagem/README.md](SistemaHospedagem/README.md)
-
 ## 🧭 Trilha do Curso (120h)
 
 1. Fundamentos do Android e ambiente de desenvolvimento
@@ -71,10 +42,6 @@ Aplicativo Android com proposta de experiência de hospedagem/resort, com múlti
 | Retrofit | Consumo de APIs |
 | Coroutines | Operações assíncronas |
 | MVVM | Organização arquitetural |
-
-## 🔄 Atualizações
-
-Novos projetos e atividades serão adicionados continuamente conforme o avanço do curso.
 
 ## 👨‍💻 Autor
 

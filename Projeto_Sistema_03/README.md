@@ -6,69 +6,44 @@ Aplicativo Android desenvolvido em **Kotlin** com **Jetpack Compose**, focado em
 
 ## 🖼️ Telas do Aplicativo
 
-### Tela Inicial — Página Inicial
-![Página Inicial](docs/screenshots/paginaInicial.png)
-*Hero image com resumo visual da hospedagem.*
+### 🏠 Tela Inicial
+
+| Página Inicial | Informações da Hospedagem | Expandir Conteúdo |
+|:-:|:-:|:-:|
+| ![Página Inicial](docs/screenshots/paginaInicial.png) | ![Informações](docs/screenshots/infosTelaInicial.png) | ![Botão Expandir](docs/screenshots/botaoMostrarMaisTelaInicial.png) |
+| Hero image com resumo visual | Bottom sheet com informações, mapa e descrição | Ação de expansão com animação |
 
 ---
 
-### Informações da Hospedagem — Detalhes no Bottom Sheet
-![Informações Tela Inicial](docs/screenshots/infosTelaInicial.png)
-*Informações detalhadas da hospedagem com mapa interativo e descrição completa.*
+### 🎭 Tela de Atrações
+
+| Lista Principal | Segunda Visualização | Terceira Visualização |
+|:-:|:-:|:-:|
+| ![Atrações 1](docs/screenshots/telaAtracoes.png) | ![Atrações 2](docs/screenshots/telaAtracoesDois.png) | ![Atrações 3](docs/screenshots/telaAtracoesTres.png) |
+| Primeiros cards de atrações | Continuação da lista | Mais atrações disponíveis |
+
+#### Detalhes dos Cards de Evento
+
+| Card 1 | Card 2 |
+|:-:|:-:|
+| ![Info Evento 1](docs/screenshots/telaAtracoesInfoEvento.png) | ![Info Evento 2](docs/screenshots/telaAtracoesinfoEventoDois.png) |
+| Detalhe de card com informações | Outro card com detalhes de evento |
 
 ---
 
-### Botão "Saiba Mais" — Expandir Conteúdo
-![Botão Mostrar Mais](docs/screenshots/botaoMostrarMaisTelaInicial.png)
-*Ação de expansão do conteúdo com animação suave.*
+### 💬 Tela de Comentários
+
+| Avaliações - Primeira Parte | Avaliações - Segunda Parte |
+|:-:|:-:|
+| ![Comentários 1](docs/screenshots/telaComentarios.png) | ![Comentários 2](docs/screenshots/telaComentariosDois.png) |
+| Perfil, estrelas e texto dos hóspedes | Continuação das avaliações |
 
 ---
 
-### Tela de Atrações — Listagem Principal
-![Tela de Atrações](docs/screenshots/telaAtracoes.png)
-*Primeira visão da lista de atrações em formato de cards.*
+### ❓ Tela de FAQ
 
----
-
-### Tela de Atrações — Segunda Visualização
-![Tela de Atrações 2](docs/screenshots/telaAtracoesDois.png)
-*Continuação da lista com mais atrações e eventos.*
-
----
-
-### Tela de Atrações — Terceira Visualização
-![Tela de Atrações 3](docs/screenshots/telaAtracoesTres.png)
-*Mais atrações e eventos disponíveis na hospedagem.*
-
----
-
-### Informações de Evento — Card de Atração
-![Info Evento](docs/screenshots/telaAtracoesInfoEvento.png)
-*Detalhe de um card com informações de evento/atração.*
-
----
-
-### Informações de Evento — Segunda Visualização
-![Info Evento 2](docs/screenshots/telaAtracoesinfoEventoDois.png)
-*Outro card com informações detalhadas de evento.*
-
----
-
-### Tela de Comentários — Avaliações de Hóspedes
-![Tela de Comentários](docs/screenshots/telaComentarios.png)
-*Primeira parte das avaliações com perfil, estrelas e texto.*
-
----
-
-### Tela de Comentários — Segunda Visualização
-![Tela de Comentários 2](docs/screenshots/telaComentariosDois.png)
-*Continuação das avaliações de hóspedes.*
-
----
-
-### Tela de FAQ — Dúvidas Frequentes
-![Tela de FAQ](docs/screenshots/FAQ.png)
-*Perguntas frequentes organizadas em 4 categorias principais.*
+![FAQ](docs/screenshots/FAQ.png)
+*Perguntas frequentes organizadas em 4 categorias: cancelamento, regras, segurança e saúde.*
 
 ---
 
@@ -82,11 +57,10 @@ Aplicativo Android desenvolvido em **Kotlin** com **Jetpack Compose**, focado em
 - ✅ Exibição das informações completas da atração selecionada
 - ✅ Botões contextuais: "Agendar" para atrações e "Saiba mais" para eventos
 - ✅ Integração com Google Maps — clique no mapa abre a localização
-- ✅ Seção de comentários com **66 avaliações** de hóspedes
+- ✅ Seção de comentários com **avaliações** de hóspedes
 - ✅ Seção de dúvidas frequentes com 4 categorias (cancelamento, regras, segurança, saúde)
 - ✅ Rodapé dinâmico de reserva ao expandir o conteúdo inicial
 - ✅ Preço dinâmico exibido: **R$ 1.250 por noite**
-- ✅ Informações da hospedagem: **5.0 ⭐ · Até 12 pessoas**
 - ✅ Animações suaves com transições (fade, slide)
 
 ---

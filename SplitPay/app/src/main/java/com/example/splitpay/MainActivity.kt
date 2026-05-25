@@ -31,6 +31,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -97,6 +98,17 @@ private data class GroupExpense(
     val impactPositive: Boolean
 )
 
+private data class GroupOverview(
+    val key: String,
+    val icon: String,
+    val title: String,
+    val participants: String,
+    val totalSpent: String,
+    val balance: String,
+    val teDevem: String,
+    val voceDeve: String
+)
+
 private data class DebtTransaction(
     val fromInitials: String,
     val fromName: String,
@@ -105,8 +117,73 @@ private data class DebtTransaction(
     val color: Color
 )
 
+private fun normalizeGroupKey(groupKey: String): String {
+    val normalized = groupKey.trim().lowercase()
+    return when (normalized) {
+        "viagem floripa", "viagem_floripa" -> "viagem_floripa"
+        "republica", "república" -> "republica"
+        "aniversario carol", "aniversário carol", "aniversario_carol" -> "aniversario_carol"
+        else -> normalized.replace(" ", "_")
+    }
+}
+
+private fun resolveGroupOverview(groupKey: String): GroupOverview {
+    return when (normalizeGroupKey(groupKey)) {
+        "viagem_floripa" -> GroupOverview(
+            key = "viagem_floripa",
+            icon = "🏖",
+            title = "Viagem Floripa",
+            participants = "4 participantes",
+            totalSpent = "R$ 2.060,00",
+            balance = "+R$ 641,67",
+            teDevem = "R$ 976,67",
+            voceDeve = "R$ 0,00"
+        )
+
+        "republica" -> GroupOverview(
+            key = "republica",
+            icon = "🏠",
+            title = "República",
+            participants = "3 participantes",
+            totalSpent = "R$ 330,00",
+            balance = "+R$ 10,00",
+            teDevem = "R$ 330,00",
+            voceDeve = "R$ 0,00"
+        )
+
+        "aniversario_carol" -> GroupOverview(
+            key = "aniversario_carol",
+            icon = "🎉",
+            title = "Aniversário Carol",
+            participants = "4 participantes",
+            totalSpent = "R$ 940,00",
+            balance = "+R$ 325,00",
+            teDevem = "R$ 940,00",
+            voceDeve = "R$ 0,00"
+        )
+
+        else -> GroupOverview(
+            key = normalizeGroupKey(groupKey),
+            icon = "👥",
+            title = groupKey,
+            participants = "0 participantes",
+            totalSpent = "R$ 0,00",
+            balance = "R$ 0,00",
+            teDevem = "R$ 0,00",
+            voceDeve = "R$ 0,00"
+        )
+    }
+}
+
+private fun splitPayGroups(): List<GroupOverview> = listOf(
+    resolveGroupOverview("viagem_floripa"),
+    resolveGroupOverview("republica"),
+    resolveGroupOverview("aniversario_carol")
+)
+
 private enum class SplitPayScreen {
     Home,
+    Groups,
     NewGroup,
     Notifications,
     GroupDetails,
@@ -117,14 +194,27 @@ private enum class SplitPayScreen {
 @Composable
 private fun SplitPayApp() {
     var currentScreen by remember { mutableStateOf(SplitPayScreen.Home) }
-    var activeGroupName by remember { mutableStateOf("Viagem Floripa") }
+    var activeGroupKey by remember { mutableStateOf("viagem_floripa") }
+    var groupDetailsReturnScreen by remember { mutableStateOf(SplitPayScreen.Home) }
 
     when (currentScreen) {
         SplitPayScreen.Home -> SplitPayHomeScreen(
             onNewGroupClick = { currentScreen = SplitPayScreen.NewGroup },
             onNotificationsClick = { currentScreen = SplitPayScreen.Notifications },
-            onGroupClick = { groupName ->
-                activeGroupName = groupName
+            onGroupsClick = { currentScreen = SplitPayScreen.Groups },
+            onGroupClick = { groupKey ->
+                activeGroupKey = groupKey
+                groupDetailsReturnScreen = SplitPayScreen.Home
+                currentScreen = SplitPayScreen.GroupDetails
+            }
+        )
+
+        SplitPayScreen.Groups -> GroupsScreen(
+            onHomeClick = { currentScreen = SplitPayScreen.Home },
+            onGroupsClick = { currentScreen = SplitPayScreen.Groups },
+            onGroupClick = { groupKey ->
+                activeGroupKey = groupKey
+                groupDetailsReturnScreen = SplitPayScreen.Groups
                 currentScreen = SplitPayScreen.GroupDetails
             }
         )
@@ -138,19 +228,19 @@ private fun SplitPayApp() {
         )
 
         SplitPayScreen.GroupDetails -> GroupDetailsScreen(
-            groupName = activeGroupName,
-            onBackClick = { currentScreen = SplitPayScreen.Home },
+            groupKey = activeGroupKey,
+            onBackClick = { currentScreen = groupDetailsReturnScreen },
             onNewExpenseClick = { currentScreen = SplitPayScreen.NewExpense },
             onViewDebtsClick = { currentScreen = SplitPayScreen.Debts }
         )
 
         SplitPayScreen.NewExpense -> NewExpenseScreen(
-            groupName = activeGroupName,
+            groupKey = activeGroupKey,
             onCloseClick = { currentScreen = SplitPayScreen.GroupDetails }
         )
 
         SplitPayScreen.Debts -> DebtsScreen(
-            groupName = activeGroupName,
+            groupKey = activeGroupKey,
             onBackClick = { currentScreen = SplitPayScreen.GroupDetails }
         )
     }
@@ -160,15 +250,23 @@ private fun SplitPayApp() {
 fun SplitPayHomeScreen(
     onNewGroupClick: () -> Unit,
     onNotificationsClick: () -> Unit,
+    onGroupsClick: () -> Unit,
     onGroupClick: (String) -> Unit
 ) {
-    var selectedGroup by remember { mutableStateOf("Aniversario Carol") }
+    var selectedGroupKey by remember { mutableStateOf("aniversario_carol") }
+    val homeGroups = splitPayGroups()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = ScreenBackground,
         topBar = { HomeTopBar(onNotificationsClick = onNotificationsClick) },
-        bottomBar = { BottomBar() }
+        bottomBar = {
+            BottomBar(
+                selectedScreen = SplitPayScreen.Home,
+                onHomeClick = {},
+                onGroupsClick = onGroupsClick
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -190,37 +288,281 @@ fun SplitPayHomeScreen(
             SectionTitle(title = "GRUPOS")
             Spacer(modifier = Modifier.height(10.dp))
             GroupItem(
-                icon = "🏖",
-                title = "Viagem Floripa",
-                subtitle = "4 pessoas - R$ 2.060,00 total",
-                selected = selectedGroup == "Viagem Floripa",
+                icon = homeGroups[0].icon,
+                title = homeGroups[0].title,
+                subtitle = "${homeGroups[0].participants} - ${homeGroups[0].totalSpent} total",
+                selected = selectedGroupKey == "viagem_floripa",
                 onClick = {
-                    selectedGroup = "Viagem Floripa"
-                    onGroupClick("Viagem Floripa")
+                    selectedGroupKey = "viagem_floripa"
+                    onGroupClick("viagem_floripa")
                 }
             )
             GroupItem(
-                icon = "🏠",
-                title = "Republica",
-                subtitle = "3 pessoas - R$ 330,00 total",
-                selected = selectedGroup == "Republica",
+                icon = homeGroups[1].icon,
+                title = homeGroups[1].title,
+                subtitle = "${homeGroups[1].participants} - ${homeGroups[1].totalSpent} total",
+                selected = selectedGroupKey == "republica",
                 onClick = {
-                    selectedGroup = "Republica"
-                    onGroupClick("Republica")
+                    selectedGroupKey = "republica"
+                    onGroupClick("republica")
                 }
             )
             GroupItem(
-                icon = "🎉",
-                title = "Aniversario Carol",
-                subtitle = "4 pessoas - R$ 940,00 total",
-                selected = selectedGroup == "Aniversario Carol",
+                icon = homeGroups[2].icon,
+                title = homeGroups[2].title,
+                subtitle = "${homeGroups[2].participants} - ${homeGroups[2].totalSpent} total",
+                selected = selectedGroupKey == "aniversario_carol",
                 onClick = {
-                    selectedGroup = "Aniversario Carol"
-                    onGroupClick("Aniversario Carol")
+                    selectedGroupKey = "aniversario_carol"
+                    onGroupClick("aniversario_carol")
                 }
             )
             NewGroupButton(onClick = onNewGroupClick)
             Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+}
+
+@Composable
+private fun GroupsScreen(
+    onHomeClick: () -> Unit,
+    onGroupsClick: () -> Unit,
+    onGroupClick: (String) -> Unit
+) {
+    val groups = splitPayGroups()
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredGroups = remember(searchQuery, groups) {
+        if (searchQuery.isBlank()) {
+            groups
+        } else {
+            groups.filter { group ->
+                group.title.contains(searchQuery, ignoreCase = true) ||
+                    group.participants.contains(searchQuery, ignoreCase = true)
+            }
+        }
+    }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = ScreenBackground,
+        topBar = { GroupsTopBar() },
+        bottomBar = {
+            BottomBar(
+                selectedScreen = SplitPayScreen.Groups,
+                onHomeClick = onHomeClick,
+                onGroupsClick = onGroupsClick
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 14.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(Color(0xFF111824))
+                    .border(1.dp, CardBorder, RoundedCornerShape(24.dp))
+                    .padding(horizontal = 14.dp, vertical = 12.dp)
+            ) {
+                BasicTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    singleLine = true,
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = PrimaryText,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    decorationBox = { innerTextField ->
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Outlined.Search,
+                                contentDescription = "Buscar grupos",
+                                tint = MutedText,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Box(modifier = Modifier.weight(1f)) {
+                                if (searchQuery.isEmpty()) {
+                                    Text(
+                                        text = "Buscar grupos...",
+                                        color = MutedText,
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                                innerTextField()
+                            }
+                        }
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+            if (filteredGroups.isEmpty()) {
+                Text(
+                    text = "Nenhum grupo encontrado.",
+                    color = MutedText,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+            } else {
+                filteredGroups.forEach { group ->
+                    GroupOverviewCard(
+                        item = group,
+                        onClick = { onGroupClick(group.key) }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(18.dp))
+        }
+    }
+}
+
+@Composable
+private fun GroupsTopBar() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(ScreenBackground)
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(33.dp)
+                        .clip(CircleShape)
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(Color(0xFF2F5BFF), Color(0xFF1DEBAE))
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "↗", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Grupos", color = PrimaryText, fontSize = 23.sp, fontWeight = FontWeight.ExtraBold)
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(33.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF101827))
+                    .border(1.dp, Color(0xFF25344D), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Notifications,
+                    contentDescription = "Notificacoes",
+                    tint = PrimaryText,
+                    modifier = Modifier.size(17.dp)
+                )
+
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = 5.dp, end = 5.dp)
+                        .size(7.dp)
+                        .clip(CircleShape)
+                        .background(GreenAccent)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+        Divider(color = Color(0xFF1A263A))
+    }
+}
+
+@Composable
+private fun GroupOverviewCard(item: GroupOverview, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 14.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = CardBackground)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(1.dp, CardBorder, RoundedCornerShape(20.dp))
+                .padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(Color(0xFF17263D)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = item.icon, fontSize = 24.sp)
+            }
+
+            Spacer(modifier = Modifier.width(14.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = item.title,
+                        color = PrimaryText,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(text = "›", color = MutedText, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
+
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = item.participants,
+                    color = Color(0xFF8A97AF),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(text = "Total gasto", color = Color(0xFF8A97AF), fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(text = item.totalSpent, color = PrimaryText, fontSize = 15.sp, fontWeight = FontWeight.ExtraBold)
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .width(1.dp)
+                            .height(28.dp)
+                            .background(Color(0xFF24344C))
+                    )
+
+                    Spacer(modifier = Modifier.width(14.dp))
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(text = "Seu saldo", color = Color(0xFF8A97AF), fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(text = item.balance, color = GreenAccent, fontSize = 15.sp, fontWeight = FontWeight.ExtraBold)
+                    }
+                }
+            }
         }
     }
 }
@@ -635,24 +977,12 @@ private fun ParticipantRow(member: GroupMember, selected: Boolean, onClick: () -
 
 @Composable
 private fun GroupDetailsScreen(
-    groupName: String,
+    groupKey: String,
     onBackClick: () -> Unit,
     onNewExpenseClick: () -> Unit,
     onViewDebtsClick: () -> Unit
 ) {
-    val groupIcon = when (groupName) {
-        "Viagem Floripa" -> "🏖"
-        "Republica" -> "🏠"
-        "Aniversario Carol" -> "🎉"
-        else -> "👥"
-    }
-
-    val summaryTotal = when (groupName) {
-        "Viagem Floripa" -> "R$ 2.060,00"
-        "Republica" -> "R$ 330,00"
-        "Aniversario Carol" -> "R$ 940,00"
-        else -> "R$ 0,00"
-    }
+    val group = resolveGroupOverview(groupKey)
 
     val expenses = listOf(
         GroupExpense(
@@ -686,8 +1016,8 @@ private fun GroupDetailsScreen(
         containerColor = ScreenBackground,
         topBar = {
             GroupDetailsTopBar(
-                groupIcon = groupIcon,
-                groupName = groupName,
+                groupIcon = group.icon,
+                groupName = group.title,
                 onBackClick = onBackClick
             )
         }
@@ -705,19 +1035,19 @@ private fun GroupDetailsScreen(
                 GroupSummaryCard(
                     modifier = Modifier.weight(1f),
                     title = "Total",
-                    value = summaryTotal,
+                    value = group.totalSpent,
                     valueColor = PrimaryText
                 )
                 GroupSummaryCard(
                     modifier = Modifier.weight(1f),
                     title = "Te devem",
-                    value = "R$ 641,67",
+                    value = group.teDevem,
                     valueColor = GreenAccent
                 )
                 GroupSummaryCard(
                     modifier = Modifier.weight(1f),
                     title = "Voce deve",
-                    value = "R$ 0,00",
+                    value = group.voceDeve,
                     valueColor = RedAccent
                 )
             }
@@ -788,13 +1118,8 @@ private fun GroupDetailsScreen(
 }
 
 @Composable
-private fun DebtsScreen(groupName: String, onBackClick: () -> Unit) {
-    val groupIcon = when (groupName) {
-        "Viagem Floripa" -> "🏖"
-        "Republica" -> "🏠"
-        "Aniversario Carol" -> "🎉"
-        else -> "👥"
-    }
+private fun DebtsScreen(groupKey: String, onBackClick: () -> Unit) {
+    val group = resolveGroupOverview(groupKey)
 
     val transactions = listOf(
         DebtTransaction(
@@ -825,8 +1150,8 @@ private fun DebtsScreen(groupName: String, onBackClick: () -> Unit) {
         containerColor = ScreenBackground,
         topBar = {
             DebtsTopBar(
-                groupName = groupName,
-                groupIcon = groupIcon,
+                groupName = group.title,
+                groupIcon = group.icon,
                 onBackClick = onBackClick
             )
         }
@@ -982,7 +1307,8 @@ private fun DebtTransactionCard(item: DebtTransaction) {
 }
 
 @Composable
-private fun NewExpenseScreen(groupName: String, onCloseClick: () -> Unit) {
+private fun NewExpenseScreen(groupKey: String, onCloseClick: () -> Unit) {
+    val group = resolveGroupOverview(groupKey)
     val categoryOptions = listOf("🍕", "💻", "🏠", "🍺", "⚡", "🧃", "🎬", "💰", "✈", "🧾", "💊", "🔧")
     val participants = listOf(
         GroupMember(initials = "Y", name = "Voce", email = "voce@email.com", isCurrentUser = true),
@@ -1011,6 +1337,13 @@ private fun NewExpenseScreen(groupName: String, onCloseClick: () -> Unit) {
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 14.dp)
         ) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "Grupo: ${group.title}",
+                color = Color(0xFF6E7F9C),
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Medium
+            )
             Spacer(modifier = Modifier.height(12.dp))
             SectionTitle(title = "CATEGORIA")
             Spacer(modifier = Modifier.height(12.dp))
@@ -1043,7 +1376,6 @@ private fun NewExpenseScreen(groupName: String, onCloseClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(24.dp))
             SectionTitle(title = "DESCRIÇÃO")
-            Spacer(modifier = Modifier.height(10.dp))
 
             Box(
                 modifier = Modifier
@@ -1878,7 +2210,11 @@ private fun NewGroupButton(onClick: () -> Unit) {
 }
 
 @Composable
-private fun BottomBar() {
+private fun BottomBar(
+    selectedScreen: SplitPayScreen,
+    onHomeClick: () -> Unit,
+    onGroupsClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -1893,17 +2229,17 @@ private fun BottomBar() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BottomItem(icon = "⌂", title = "Inicio", selected = true)
-            BottomItem(icon = "◫", title = "Grupos", selected = false)
-            BottomItem(icon = "$", title = "Dividas", selected = false)
-            BottomItem(icon = "↺", title = "Historico", selected = false)
-            BottomItem(icon = "◠", title = "Perfil", selected = false)
+            BottomItem(icon = "⌂", title = "Inicio", selected = selectedScreen == SplitPayScreen.Home, onClick = onHomeClick)
+            BottomItem(icon = "◫", title = "Grupos", selected = selectedScreen == SplitPayScreen.Groups, onClick = onGroupsClick)
+            BottomItem(icon = "$", title = "Dividas", selected = false, onClick = {})
+            BottomItem(icon = "↺", title = "Historico", selected = false, onClick = {})
+            BottomItem(icon = "◠", title = "Perfil", selected = false, onClick = {})
         }
     }
 }
 
 @Composable
-private fun BottomItem(icon: String, title: String, selected: Boolean) {
+private fun BottomItem(icon: String, title: String, selected: Boolean, onClick: () -> Unit) {
     val itemBackground = if (selected) Color(0xFF0F493F) else Color.Transparent
     val itemColor = if (selected) GreenAccent else MutedText
 
@@ -1911,6 +2247,7 @@ private fun BottomItem(icon: String, title: String, selected: Boolean) {
         modifier = Modifier
             .clip(RoundedCornerShape(18.dp))
             .background(itemBackground)
+            .clickable(onClick = onClick)
             .padding(horizontal = 10.dp, vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -1923,6 +2260,6 @@ private fun BottomItem(icon: String, title: String, selected: Boolean) {
 @Composable
 fun SplitPayHomePreview() {
     SplitPayTheme(darkTheme = true, dynamicColor = false) {
-        SplitPayHomeScreen(onNewGroupClick = {}, onNotificationsClick = {}, onGroupClick = {})
+        SplitPayHomeScreen(onNewGroupClick = {}, onNotificationsClick = {}, onGroupsClick = {}, onGroupClick = {})
     }
 }
